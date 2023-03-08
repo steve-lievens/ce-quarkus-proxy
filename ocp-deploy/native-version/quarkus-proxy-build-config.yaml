@@ -3,26 +3,28 @@ apiVersion: build.openshift.io/v1
 metadata:
   annotations:
     app.openshift.io/vcs-uri: "https://github.com/steve-lievens/ce-quarkus-proxy"
-  name: bc-quarkus-proxy
+  name: bc-quarkus-proxy-native
   labels:
-    app: quarkus-proxy
-    app.kubernetes.io/component: quarkus-proxy
-    app.kubernetes.io/instance: quarkus-proxy
+    app: quarkus-proxy-native
+    app.kubernetes.io/component: quarkus-proxy-native
+    app.kubernetes.io/instance: quarkus-proxy-native
     app.kubernetes.io/name: quarkus
-    app.kubernetes.io/part-of: quarkus-app
+    app.kubernetes.io/part-of: quarkus-app-native
 spec:
   nodeSelector: null
   output:
     to:
       kind: ImageStreamTag
-      name: "quarkus-proxy:latest"
+      name: "quarkus-proxy-native:latest"
   strategy:
     type: Docker
     dockerStrategy:
       env:
         - name: OTEL_ENABLED
-          value: "false"
-      dockerfilePath: Dockerfile
+          value: "true"
+        - name: APP_NAME
+          value: "quarkus-proxy-native"
+      dockerfilePath: Dockerfile.native
   source:
     type: Git
     git:
